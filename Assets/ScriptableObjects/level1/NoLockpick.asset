@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37300e49690346f408052f5b6e209e17, type: 3}
+  m_Name: NoLockpick
+  m_EditorClassIdentifier: 
+  narrationTitle: NoLockpick
+  narrationSteps:
+  - narrationText: "Locked! Of course! Guess I'll need my lockpicks. \nThere should
+      be some in my office... somewhere."
+    audioClip: {fileID: 8300000, guid: 7e54c85745e2dfb47b633159624fbb32, type: 3}
+    delay: 0
+    lifeTime: 7.5
+    isPrompt: 0
+    choice1: 
+    choice1ResultingSequence: 
+    choice2: 
+    choice2ResultingSequence: 

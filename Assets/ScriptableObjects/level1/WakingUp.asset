@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37300e49690346f408052f5b6e209e17, type: 3}
+  m_Name: WakingUp
+  m_EditorClassIdentifier: 
+  narrationTitle: WakingUp
+  narrationSteps:
+  - narrationText: '*ring* *ring*'
+    audioClip: {fileID: 8300000, guid: fe29b209a56aa2b479055fa795c41779, type: 3}
+    delay: 0.5
+    lifeTime: 2
+    isPrompt: 0
+    choice1: 
+    choice1ResultingSequence: 
+    choice2: 
+    choice2ResultingSequence: 
+  - narrationText: '*ring* *ring*'
+    audioClip: {fileID: 8300000, guid: fe29b209a56aa2b479055fa795c41779, type: 3}
+    delay: 1
+    lifeTime: 2
+    isPrompt: 0
+    choice1: 
+    choice1ResultingSequence: 
+    choice2: 
+    choice2ResultingSequence: 
+  - narrationText: Hello?
+    audioClip: {fileID: 8300000, guid: 726475628cace964294d06004d3c6c17, type: 3}
+    delay: 0.5
+    lifeTime: 1.5
+    isPrompt: 0
+    choice1: 
+    choice1ResultingSequence: 
+    choice2: 
+    choice2ResultingSequence: 
+  - narrationText: "Coworker (Michael): \nHey, I figured you'd be at the office still.
+      Can you do me a favor?"
+    audioClip: {fileID: 8300000, guid: bb4eb9a2ab3da3c48b6ac8ec4fcd63a7, type: 3}
+    delay: 1
+    lifeTime: 5
+    isPrompt: 0
+    choice1: 
+    choice1ResultingSequence: 
+    choice2: 
+    choice2ResultingSequence: 
+  - narrationText: What is it?
+    audioClip: {fileID: 8300000, guid: 1a74845a9b438084ab60d50085e05b14, type: 3}
+    delay: 1
+    lifeTime: 1.5
+    isPrompt: 0
+    choice1: 
+    choice1ResultingSequence: 
+    choice2: 
+    choice2ResultingSequence: 
+  - narrationText: "Michael: \nWell, I can't find my briefcase anywhere. I think
+      I might have left it in the office last night. Can you check for me?"
+    audioClip: {fileID: 8300000, guid: 42d2155deb91ba34c87c1daedde19f5b, type: 3}
+    delay: 1
+    lifeTime: 9
+    isPrompt: 1
+    choice1: Help find Michael's briefcase
+    choice1ResultingSequence: HelpMichael
+    choice2: Don't help Michael
+    choice2ResultingSequence: DontHelpMichael

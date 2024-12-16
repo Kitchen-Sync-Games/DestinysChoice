@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37300e49690346f408052f5b6e209e17, type: 3}
+  m_Name: DoorsJoke
+  m_EditorClassIdentifier: 
+  narrationTitle: DoorsJoke
+  narrationSteps:
+  - narrationText: Why do I feel like some of the doors lead nowhere?
+    audioClip: {fileID: 8300000, guid: 9d91385464ca2174e9df1e7a0616a66e, type: 3}
+    delay: 0
+    lifeTime: 4
+    isPrompt: 0
+    choice1: 
+    choice1ResultingSequence: 
+    choice2: 
+    choice2ResultingSequence: 
