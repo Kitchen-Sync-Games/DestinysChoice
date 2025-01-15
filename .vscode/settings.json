@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Destinys-Choice.sln"
+    "dotnet.defaultSolution": "Destinys-Choice_WwiseIntegrationTemp.sln"
 }
