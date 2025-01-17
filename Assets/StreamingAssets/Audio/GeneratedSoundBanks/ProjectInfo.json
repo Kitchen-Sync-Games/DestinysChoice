@@ -1,0 +1,36 @@
+{
+ "ProjectInfo": {
+  "Project": {
+   "Name": "Destinys-Choice_WwiseProject",
+   "GUID": "{EFFE6D6B-EF2B-4CAB-8E4E-4E68F56BFE90}",
+   "Generator": "2024.1.1.8691"
+  },
+  "CacheRoot": "../../../../Destinys-Choice_WwiseProject/.cache",
+  "Platforms": [
+   {
+    "Name": "Mac",
+    "GUID": "{BA52216D-BCEA-450D-9997-A3D0EAC01F85}",
+    "BasePlatform": "Mac",
+    "BasePlatformGUID": "{9C6217D5-DD11-4795-87C1-6CE02853C540}",
+    "Path": "../../../../Destinys-Choice_WwiseProject/GeneratedSoundBanks/Mac"
+   },
+   {
+    "Name": "Windows",
+    "GUID": "{9FFE67C0-4F87-4B3D-A960-C5C00ADBEE2F}",
+    "BasePlatform": "Windows",
+    "BasePlatformGUID": "{6E0CB257-C6C8-4C5C-8366-2740DFC441EB}",
+    "Path": "../../../../Destinys-Choice_WwiseProject/GeneratedSoundBanks/Windows"
+   }
+  ],
+  "Languages": [
+   {
+    "Name": "English(US)",
+    "Id": "684519430",
+    "GUID": "{BCD9D773-203B-4B96-848E-57095217F57D}",
+    "Default": "true",
+    "UseAsStandIn": "true"
+   }
+  ],
+  "FileHash": "{17380EA6-17F3-576D-2D4B-6C0A691A3767}"
+ }
+}
