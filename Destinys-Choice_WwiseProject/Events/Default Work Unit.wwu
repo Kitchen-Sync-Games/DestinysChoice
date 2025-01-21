@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <WwiseDocument Type="WorkUnit" ID="{006B2983-67EE-4D0F-8C4A-207B2D39C175}" SchemaVersion="123">
 	<Events>
-		<WorkUnit Name="Default Work Unit" ID="{006B2983-67EE-4D0F-8C4A-207B2D39C175}" PersistMode="Standalone"/>
+		<WorkUnit Name="Default Work Unit" ID="{006B2983-67EE-4D0F-8C4A-207B2D39C175}" PersistMode="Standalone">
+			<ChildrenList>
+				<Event Name="backgroundTest" ID="{B6E3F2DE-52AE-4FA0-A403-53FA52EB62C1}">
+					<ChildrenList>
+						<Action Name="" ID="{B985A054-D726-455E-A429-D83849DAB54B}" ShortID="240024">
+							<ReferenceList>
+								<Reference Name="Target">
+									<ObjectRef Name="342909__f0rest15__soft-piano" ID="{80FA2495-C66F-4359-BA7A-83D1E5EDE7C9}" WorkUnitID="{FC499809-0D3B-4F0F-918B-BAA43A1DE472}"/>
+								</Reference>
+							</ReferenceList>
+						</Action>
+					</ChildrenList>
+				</Event>
+			</ChildrenList>
+		</WorkUnit>
 	</Events>
 </WwiseDocument>

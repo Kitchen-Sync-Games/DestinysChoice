@@ -1,0 +1,6 @@
+Event	ID	Name			Wwise Object Path	Notes
+	3235188925	backgroundTest			\Default Work Unit\backgroundTest	
+
+In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	939340849	342909__f0rest15__soft-piano	C:\Users\Brack\KitchenSink\DestinysChoice\Destinys-Choice\Destinys-Choice_WwiseProject\.cache\0E\{0EA19DAE-5296-48E8-2FF4-615182276EA1}.wem		\Actor-Mixer Hierarchy\Default Work Unit\342909__f0rest15__soft-piano		10511912
+

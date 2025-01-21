@@ -66,8 +66,22 @@ MonoBehaviour:
     ParentPath: SoundBanks\Default Work Unit
     guid: 4152f38f69bb6a4cb2e83d2397533ee8
     GuidInternal: 
-    m_lastTime: -8584646532394704794
-    List: []
+    m_lastTime: -8584641265164616409
+    List:
+    - name: SB_BackgroundTest
+      guid: e75af708569d5e45853c544dbaa01613
+      id: 3692911637
+      PathAndIcons:
+      - ElementName: SoundBanks
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 4152f38f69bb6a4cb2e83d2397533ee8
+      - ElementName: SB_BackgroundTest
+        ObjectType: 7
+        guid: e75af708569d5e45853c544dbaa01613
+      Path: SoundBanks\Default Work Unit\SB_BackgroundTest
   EventWwu:
   - PhysicalPath: Events\Default Work Unit.wwu
     PathAndIcons:
@@ -80,8 +94,25 @@ MonoBehaviour:
     ParentPath: Events\Default Work Unit
     guid: 83296b00ee670f4d8c4a207b2d39c175
     GuidInternal: 
-    m_lastTime: -8584646532396295618
-    List: []
+    m_lastTime: -8584641265164530968
+    List:
+    - name: backgroundTest
+      guid: def2e3b6ae52a04fa40353fa52eb62c1
+      id: 3235188925
+      PathAndIcons:
+      - ElementName: Events
+        ObjectType: 5
+        guid: 00000000000000000000000000000000
+      - ElementName: Default Work Unit
+        ObjectType: 12
+        guid: 83296b00ee670f4d8c4a207b2d39c175
+      - ElementName: backgroundTest
+        ObjectType: 3
+        guid: def2e3b6ae52a04fa40353fa52eb62c1
+      Path: Events\Default Work Unit\backgroundTest
+      maxAttenuation: 0
+      maxDuration: 59.590523
+      minDuration: 59.590523
   RtpcWwu:
   - PhysicalPath: Game Parameters\Default Work Unit.wwu
     PathAndIcons:
@@ -139,7 +170,7 @@ MonoBehaviour:
     m_lastTime: -8584646532396155328
     List: []
   ExpandedFileSystemItemIds: 
-  ExpandedWaapiItemIds: 
+  ExpandedWaapiItemIds: 0600000007000000090000000a0000000b0000000c000000
   AutoSyncSelection: 0
   autoPopulateEnabled: 1
   currentDataSource: 0

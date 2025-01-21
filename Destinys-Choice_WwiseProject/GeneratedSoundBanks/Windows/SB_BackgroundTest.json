@@ -1,0 +1,47 @@
+{
+ "SoundBanksInfo": {
+  "Platform": "Windows",
+  "BasePlatform": "Windows",
+  "SchemaVersion": "16",
+  "SoundBankVersion": "154",
+  "SoundBanks": [
+   {
+    "Id": "3692911637",
+    "Type": "User",
+    "GUID": "{08F75AE7-9D56-455E-853C-544DBAA01613}",
+    "Language": "SFX",
+    "Hash": "{426EEFB9-C445-C938-765F-D6FE3D3A111D}",
+    "ObjectPath": "\\SoundBanks\\Default Work Unit\\SB_BackgroundTest",
+    "ShortName": "SB_BackgroundTest",
+    "Path": "SB_BackgroundTest.bnk",
+    "Media": [
+     {
+      "Id": "939340849",
+      "Language": "SFX",
+      "Streaming": "false",
+      "Location": "Memory",
+      "ShortName": "342909__f0rest15__soft-piano.wav",
+      "CachePath": "0E/{0EA19DAE-5296-48E8-2FF4-615182276EA1}.wem"
+     }
+    ],
+    "Events": [
+     {
+      "Id": "3235188925",
+      "Name": "backgroundTest",
+      "ObjectPath": "\\Events\\Default Work Unit\\backgroundTest",
+      "GUID": "{B6E3F2DE-52AE-4FA0-A403-53FA52EB62C1}",
+      "DurationType": "OneShot",
+      "DurationMin": "59.590523",
+      "DurationMax": "59.590523",
+      "MediaRefs": [
+       {
+        "Id": "939340849"
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "FileHash": "{6B6FB4BA-5E55-30DF-21F7-4F0141C11C65}"
+ }
+}
