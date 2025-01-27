@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: b96d8b765d6e2094fa4c28de7d0d9154
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 98045
+  packageName: Rokoko Live
+  packageVersion: 2.0.2
+  assetPath: Assets/Rokoko/Scenes/RokokoPluginExampleScene_CustomCharacter.unity
+  uploadId: 616054
