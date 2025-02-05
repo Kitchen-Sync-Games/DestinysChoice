@@ -15,7 +15,7 @@ namespace Destiny.LocksAndKeys
 
 		public List<string> LockIds { get { return lockIds; } }
 		[SerializeField]
-		protected List<string> lockIds;
+		protected List<string> lockIds = new();
 
 
 		public bool CheckIdMatch(string lockId)
@@ -23,7 +23,7 @@ namespace Destiny.LocksAndKeys
 			return lockIds.Contains(lockId);
 		}
 
-		public bool UseKey(string lockId)
+		public virtual bool UseKey(string lockId)
 		{
 			bool res = !(isUsed && !allowMultipleUses) && CheckIdMatch(lockId);
 			if (res)
