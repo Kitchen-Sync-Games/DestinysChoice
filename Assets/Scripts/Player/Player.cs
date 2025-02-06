@@ -9,6 +9,10 @@ using Vector3 = UnityEngine.Vector3;
 using UnityEngine.SceneManagement;
 
 
+enum PlayerState{
+    isGrounded, isCrouching, isTryingUncrouch
+};
+
 public class Player : MonoBehaviour
 {
     public static event Action<string> OnPlayerInteraction;
@@ -59,9 +63,11 @@ public class Player : MonoBehaviour
         speed = baseSpeed;
         controller = GetComponent<CharacterController>();
         baseCharacterHeight = controller.height;
+        
         // Lock Mouse
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
         // Input Systems
         moveAction = InputSystem.actions.FindAction("Move");
         jumpAction = InputSystem.actions.FindAction("Jump");
@@ -69,7 +75,7 @@ public class Player : MonoBehaviour
         pauseAction = InputSystem.actions.FindAction("Cancel");
         crouchAction = InputSystem.actions.FindAction("Crouch");
         interactAction = InputSystem.actions.FindAction("Interact");
-        sprintAction = InputSystem.actions.FindAction("Sprint");
+        //sprintAction = InputSystem.actions.FindAction("Sprint");
         pauseAction.performed += ctx => TogglePause();
         if (hasLockpickAtStart)
             toolManage.GetComponent<ToolUIManager>().m_is_lockpick_unlocked = true;
@@ -86,57 +92,7 @@ public class Player : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == 1)
             StartCoroutine(StartingCutsceneAndVoiceLines());
     }
-    IEnumerator StartingCutsceneAndVoiceLines() 
-    {
-        cutScene = true;
-        cameraTransform.SetLocalPositionAndRotation(new Vector3 (-1.5f, 0.25f, 0), Quaternion.Euler(-45f, 0f, 0f));
-        yield return new WaitUntil(() => cutScene == false);
-        cameraTransform.localPosition = new Vector3 (0f, 0.5f, 0f);
-        yield return new WaitUntil(() => transform.position.z <= -15 || transform.position.z >= 20);
-        sequenceManager.PlaySequence("DoorsJoke", transform.position);
-        yield return new WaitUntil(() => isLeaving == true);
-        yield return new WaitUntil(() => transform.position.x <= 1.5);
-        sequenceManager.StopAllCoroutines();
-        
-        StartCoroutine(SpookyLights());
-    }
-    public IEnumerator SpookyLights()
-    {
-        noises[0].Stop();
-        GameObject[] lights = GameObject.FindGameObjectsWithTag("light");
-        foreach (GameObject light in lights)
-        {
-            light.GetComponent<Light>().enabled = false;
-        }
-        noises[2].Play();
-        yield return new WaitForSeconds(3);
-        SpookyGuy.SetActive(true);
-        foreach (GameObject light in lights)
-        {
-            light.GetComponent<Light>().color = new Color(1f, 0, 0);
-            light.GetComponent<Light>().intensity = 1;
-            light.GetComponent<Light>().range = 10;
-            light.GetComponent<Light>().enabled = true;
-        }
-        noises[2].Play();
-        GameObject.FindGameObjectWithTag("EndLight").GetComponent<Light>().enabled = true;
-        yield return new WaitForSeconds(3);
-        foreach (GameObject light in lights)
-        {
-            light.GetComponent<Light>().enabled = false;
-        }
-        noises[2].Play();
-        yield return new WaitForSeconds(2);
-        foreach (GameObject light in lights)
-        {
-            light.GetComponent<Light>().color = new Color(1f, 1f, 1f);
-            light.GetComponent<Light>().intensity = 0.25f;
-            light.GetComponent<Light>().range = 4;
-            light.GetComponent<Light>().enabled = true;
-        }
-        noises[2].Play();
-        SpookyGuy.SetActive(false);
-    }
+    
 
     void Update()
     {
@@ -146,7 +102,8 @@ public class Player : MonoBehaviour
         HandleInteract();
     }
 
-    // Camera and Player Movement 
+    // ************** Camera and Player Movement **************
+
     void RotateAndMovePlayer(Vector2 moveValue, Vector2 lookValue)
     {
         if (!paused && !cutScene)
@@ -363,4 +320,61 @@ public class Player : MonoBehaviour
     {
         SceneManager.LoadScene(0);
     }
+
+
+    // ********* Game Events *********
+
+    IEnumerator StartingCutsceneAndVoiceLines() 
+    {
+        cutScene = true;
+        cameraTransform.SetLocalPositionAndRotation(new Vector3 (-1.5f, 0.25f, 0), Quaternion.Euler(-45f, 0f, 0f));
+        yield return new WaitUntil(() => cutScene == false);
+        cameraTransform.localPosition = new Vector3 (0f, 0.5f, 0f);
+        yield return new WaitUntil(() => transform.position.z <= -15 || transform.position.z >= 20);
+        sequenceManager.PlaySequence("DoorsJoke", transform.position);
+        yield return new WaitUntil(() => isLeaving == true);
+        yield return new WaitUntil(() => transform.position.x <= 1.5);
+        sequenceManager.StopAllCoroutines();
+        
+        StartCoroutine(SpookyLights());
+    }
+    public IEnumerator SpookyLights()
+    {
+        noises[0].Stop();
+        GameObject[] lights = GameObject.FindGameObjectsWithTag("light");
+        foreach (GameObject light in lights)
+        {
+            light.GetComponent<Light>().enabled = false;
+        }
+        noises[2].Play();
+        yield return new WaitForSeconds(3);
+        SpookyGuy.SetActive(true);
+        foreach (GameObject light in lights)
+        {
+            light.GetComponent<Light>().color = new Color(1f, 0, 0);
+            light.GetComponent<Light>().intensity = 1;
+            light.GetComponent<Light>().range = 10;
+            light.GetComponent<Light>().enabled = true;
+        }
+        noises[2].Play();
+        GameObject.FindGameObjectWithTag("EndLight").GetComponent<Light>().enabled = true;
+        yield return new WaitForSeconds(3);
+        foreach (GameObject light in lights)
+        {
+            light.GetComponent<Light>().enabled = false;
+        }
+        noises[2].Play();
+        yield return new WaitForSeconds(2);
+        foreach (GameObject light in lights)
+        {
+            light.GetComponent<Light>().color = new Color(1f, 1f, 1f);
+            light.GetComponent<Light>().intensity = 0.25f;
+            light.GetComponent<Light>().range = 4;
+            light.GetComponent<Light>().enabled = true;
+        }
+        noises[2].Play();
+        SpookyGuy.SetActive(false);
+    }
+
+
 }
