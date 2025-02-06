@@ -925,6 +925,11 @@ Transform:
   - {fileID: 1381435197}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &548994499 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1164631699724189046, guid: d495638e4e4044c02a86e1913e9e115a, type: 3}
+  m_PrefabInstance: {fileID: 2855497970988376518}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &669609887
 GameObject:
   m_ObjectHideFlags: 0
@@ -1924,12 +1929,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 6117065342032682289}
   PauseMenu: {fileID: 1608298555}
-  InteractPrompt: {fileID: 0}
+  InteractPrompt: {fileID: 548994499}
   LevelPortal: {fileID: 0}
   SpookyGuy: {fileID: 0}
   interactableLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   sequenceManager: {fileID: 0}
   toolManage: {fileID: 0}
   isInteracting: 0

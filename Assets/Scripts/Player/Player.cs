@@ -75,19 +75,19 @@ public class Player : MonoBehaviour
         pauseAction = InputSystem.actions.FindAction("Cancel");
         crouchAction = InputSystem.actions.FindAction("Crouch");
         interactAction = InputSystem.actions.FindAction("Interact");
-        //sprintAction = InputSystem.actions.FindAction("Sprint");
+        
         pauseAction.performed += ctx => TogglePause();
         if (hasLockpickAtStart)
             toolManage.GetComponent<ToolUIManager>().m_is_lockpick_unlocked = true;
         crouchAction.performed += OnCrouchPressed;
         crouchAction.canceled += OnCrouchReleased;
-        //sprintAction.performed += OnSprintPressed;
-        //sprintAction.canceled += OnSprintReleased;
+        
 
         if (LevelPortal == null)
         {
             LevelPortal = GameObject.FindGameObjectWithTag("Portal");
         }
+
         //Handle starting cutscene:
         if (SceneManager.GetActiveScene().buildIndex == 1)
             StartCoroutine(StartingCutsceneAndVoiceLines());
@@ -161,12 +161,13 @@ public class Player : MonoBehaviour
         {
             isTryingUncrouch = false;
             isCrouching = true;
-            controller.height = baseCharacterHeight * 0.75f;
-            controller.center = new Vector3(0, -baseCharacterHeight/8.0f, 0);
+            controller.height = baseCharacterHeight * 0.5f;
+            controller.center = new Vector3(0, -baseCharacterHeight/6.0f, 0);
             speed = baseSpeed/2;
             cameraTransform.localPosition = Vector3.zero;
         }
     }
+    
     void OnCrouchReleased(InputAction.CallbackContext context)
     {
         if (!cutScene)
