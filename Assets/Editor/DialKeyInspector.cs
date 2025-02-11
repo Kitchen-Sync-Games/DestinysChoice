@@ -27,6 +27,11 @@ public class DialKeyInspector : Editor
 
 	SerializedProperty useCharsDirtyProp;
 
+	SerializedProperty notchParentProp;
+	SerializedProperty notchPrefabProp;
+
+	SerializedProperty arrowProp;
+
 	private void OnEnable()
 	{
 		startNumProp = serializedObject.FindProperty("startNum");
@@ -35,10 +40,15 @@ public class DialKeyInspector : Editor
 		endNumProp = serializedObject.FindProperty("endNum");
 		endNum = endNumProp.intValue;
 
-		usingCharsProp = serializedObject.FindProperty("UsingChars");
+		usingCharsProp = serializedObject.FindProperty("usingChars");
 		usingChars = previousCharsState = usingCharsProp.boolValue;
 
 		useCharsDirtyProp = serializedObject.FindProperty("charsIsDirty");
+
+		notchParentProp = serializedObject.FindProperty("notchParent");
+		notchPrefabProp = serializedObject.FindProperty("notchPrefab");
+
+		arrowProp = serializedObject.FindProperty("arrow");
 
 		startString = "";
 		endString = "";
@@ -78,7 +88,7 @@ public class DialKeyInspector : Editor
 
 			string newStartString = EditorGUILayout.TextField(START_CHAR_LABEL, startString).ToUpper();
 			startChanged = !newStartString.Equals(startString);
-			string newEndString = EditorGUILayout.TextField(END_CHAR_LABEL, endString).ToUpper();\
+			string newEndString = EditorGUILayout.TextField(END_CHAR_LABEL, endString).ToUpper();
 			endChanged = !newEndString.Equals(endString);
 
 			if (startString.Length > 1)
@@ -142,6 +152,10 @@ public class DialKeyInspector : Editor
 		}
 		endNumProp.intValue = endNum;
 
+		EditorGUILayout.PropertyField(notchParentProp);
+		EditorGUILayout.PropertyField(notchPrefabProp);
+		EditorGUILayout.PropertyField(arrowProp);
+
 		if (previousCharsState != usingChars
 			|| startChanged
 			|| endChanged)
@@ -151,5 +165,6 @@ public class DialKeyInspector : Editor
 		}
 
 		previousCharsState = usingChars;
+		serializedObject.ApplyModifiedProperties();
 	}
 }

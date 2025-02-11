@@ -37,6 +37,8 @@ namespace Destiny.LocksAndKeys
 		/// </summary>
 		Action<string> OnLock { get; set; }
 
+        void Setup();
+
 		void Lock();
 
 		void Unlock();

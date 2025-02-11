@@ -16,7 +16,7 @@ namespace Destiny.LocksAndKeys
 		/// A set of unique identifiers. If a lock's ID is
 		/// in this set, the key unlocks that lock.
 		/// </summary>
-		List<string> LockIds { get; }
+		IReadOnlyList<string> LockIds { get; }
 
 		/// <summary>
 		/// Checks if lock ID matches LockIds. If it does,
@@ -34,5 +34,23 @@ namespace Destiny.LocksAndKeys
 		/// <returns><em>true</em> if ID is in
 		/// LockIds list.<br></br>Otherwise, <em>false</em>.</returns>
 		bool CheckIdMatch(string lockId);
+
+		/// <summary>
+		/// If true is returned, adds the lockId to the LockIds list.
+		/// </summary>
+		/// <param name="lockId"></param>
+		/// <returns><em>false</em> if ID is already in the list or the
+		/// given string is null/empty.<br></br>
+		/// Otherwise, <em>true</em>.</returns>
+		bool AddLockId(string lockId);
+
+		/// <summary>
+		/// If true is returned, removes the lockId from the LockIds list.
+		/// </summary>
+		/// <param name="lockId"></param>
+		/// <returns><em>false</em> if ID is not in the list or the
+		/// given string is null/empty.<br></br>
+		/// Otherwise, <em>true</em>.</returns>
+		bool RemoveLockId(string lockId);
 	}
 }

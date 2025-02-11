@@ -13,9 +13,14 @@ namespace Destiny.LocksAndKeys
 		[SerializeField]
 		protected bool allowMultipleUses;
 
-		public List<string> LockIds { get { return lockIds; } }
+		public IReadOnlyList<string> LockIds => lockIds.AsReadOnly();
 		[SerializeField]
 		protected List<string> lockIds = new();
+
+		private void Start()
+		{
+			lockIds = lockIds.RemoveDuplicates();
+		}
 
 
 		public bool CheckIdMatch(string lockId)
@@ -31,6 +36,26 @@ namespace Destiny.LocksAndKeys
 				isUsed = true;
 			}
 			return res;
+		}
+
+		public bool AddLockId(string lockId)
+		{
+			if (lockId.IsNullOrEmpty())
+				return false;
+
+			if (CheckIdMatch(lockId))
+				return false;
+
+			lockIds.Add(lockId);
+			return true;
+		}
+
+		public bool RemoveLockId(string lockId)
+		{
+			if (lockId.IsNullOrEmpty())
+				return false;
+
+			return lockIds.Remove(lockId);
 		}
     }
 }

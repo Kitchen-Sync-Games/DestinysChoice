@@ -31,6 +31,8 @@ namespace Destiny.LocksAndKeys
 		[SerializeField, Tooltip("Invoked when IsLocked changes and is set to true.")]
 		protected UnityEvent<string> onLockUnityEvent;
 
+		public abstract void Setup();
+
 		public void Lock()
 		{
 			bool lockChanged = !isLocked;
