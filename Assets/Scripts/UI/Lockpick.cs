@@ -21,7 +21,7 @@ public class Lockpick : MonoBehaviour
     public void StartGame(GameObject d)
     {
         interactPrompt.SetActive(false);
-        GameObject.Find("Player").GetComponent<Player>().paused = true;
+        //GameObject.Find("Player").GetComponent<Player>().paused = true;
         doorObject = d;
         gameUI.SetActive(false);
         gameObject.SetActive(true);
@@ -111,7 +111,5 @@ public class Lockpick : MonoBehaviour
         slider3.SetActive(false);
         gameUI.SetActive(true);
         gameObject.SetActive(false);
-        GameObject.Find("Player").GetComponent<Player>().paused = false;
-        GameObject.Find("Player").GetComponent<Player>().isInteracting = false;
     }
 }

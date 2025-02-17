@@ -64,7 +64,7 @@ public class SequenceManager : MonoBehaviour
             }
             else if (step == lastStep)
             {
-                player.GetComponent<Player>().cutScene = false;
+                //player.GetComponent<Player>().cutScene = false;
             }
         }
     }

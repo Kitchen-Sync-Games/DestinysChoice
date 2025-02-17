@@ -8,7 +8,7 @@ public class TriggerGameplay : MonoBehaviour
     {
         if (hit.CompareTag("Player"))
         {
-            hit.GetComponent<Player>().cutScene = true;
+            //hit.GetComponent<Player>().cutScene = true;
             StartCoroutine(hit.GetComponent<Player>().SpookyLights());
             StartCoroutine(EndDemo());
         }

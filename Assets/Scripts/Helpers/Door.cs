@@ -52,6 +52,6 @@ public class Door : MonoBehaviour
     IEnumerator WaitforInt()
     {
         yield return new WaitForSeconds(1f);
-        GameObject.Find("Player").GetComponent<Player>().isInteracting = false;
+        //GameObject.Find("Player").GetComponent<Player>().inpu = false;
     }
 }

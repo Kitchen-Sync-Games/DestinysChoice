@@ -9,9 +9,6 @@ using Vector3 = UnityEngine.Vector3;
 using UnityEngine.SceneManagement;
 
 
-enum PlayerState{
-    isGrounded, isCrouching, isTryingUncrouch
-};
 
 public class Player : MonoBehaviour
 {
@@ -27,38 +24,30 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject toolManage;
 
 
+    private PlayerMovement movement;
+    private PlayerInputHandler inputHandler;
 
-    CharacterController controller;
-    InputAction moveAction;
-    InputAction jumpAction;
-    InputAction lookAction;
-    InputAction crouchAction;
-    InputAction interactAction;
-    InputAction sprintAction;
-    InputAction pauseAction;   
-    private bool isGrounded;
-    private bool isCrouching;
-    private bool isTryingUncrouch;
+    private CharacterController controller;
+
+    private bool isGrounded, isJumping, isCrouching, isTryingUncrouch, isInteracting, cutScene, paused = false, skipDestroying, isLeaving;
     private Vector3 playerVelocity;
-    private float xRotation = 0f;
-    private float yRotationForCutscene = 0f;
-    private float baseCharacterHeight;
-    private float speed;
-    private bool skipDestroying;
-    private bool isLeaving = false;
+    private float xRotation = 0f, yRotationForCutscene = 0f, baseCharacterHeight, speed;
     private AudioSource[] noises;
 
-    public bool isInteracting;
-    public bool cutScene;
-    public bool paused = false;
-    public float mouseSensitivity = 0.1f;
+    
+    //public float mouseSensitivity = 0.1f;
     public float baseSpeed = 2.6f;
-    public float jumpPower = 1.0f;
-    public float gravity = -9.81f;
+    
     public bool hasLockpickAtStart;
     
+
+    
+
     void Start()
     {
+        inputHandler = GetComponent<PlayerInputHandler>(); // Reference the input handler
+        movement = GetComponent<PlayerMovement>();
+
         noises = GetComponents<AudioSource>();
         speed = baseSpeed;
         controller = GetComponent<CharacterController>();
@@ -68,19 +57,10 @@ public class Player : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        // Input Systems
-        moveAction = InputSystem.actions.FindAction("Move");
-        jumpAction = InputSystem.actions.FindAction("Jump");
-        lookAction = InputSystem.actions.FindAction("Look");
-        pauseAction = InputSystem.actions.FindAction("Cancel");
-        crouchAction = InputSystem.actions.FindAction("Crouch");
-        interactAction = InputSystem.actions.FindAction("Interact");
         
-        pauseAction.performed += ctx => TogglePause();
         if (hasLockpickAtStart)
             toolManage.GetComponent<ToolUIManager>().m_is_lockpick_unlocked = true;
-        crouchAction.performed += OnCrouchPressed;
-        crouchAction.canceled += OnCrouchReleased;
+        
         
 
         if (LevelPortal == null)
@@ -88,76 +68,42 @@ public class Player : MonoBehaviour
             LevelPortal = GameObject.FindGameObjectWithTag("Portal");
         }
 
-        //Handle starting cutscene:
-        if (SceneManager.GetActiveScene().buildIndex == 1)
-            StartCoroutine(StartingCutsceneAndVoiceLines());
+        
     }
     
 
     void Update()
     {
-        Vector2 move = moveAction.ReadValue<Vector2>();
-        Vector2 look = lookAction.ReadValue<Vector2>();
-        RotateAndMovePlayer(move, look);
+        // Vector2 move = moveAction.ReadValue<Vector2>();
+        // Vector2 look = lookAction.ReadValue<Vector2>();
+        // RotateAndMovePlayer(move, look);
+
+       // RotateAndMovePlayer(inputHandler.MoveInput, inputHandler.LookInput);
+
+        if (inputHandler.InteractPressed)
+            HandleInteract();
+
+        if (inputHandler.PausePressed){
+            TogglePause();
+            paused = true;
+        }
+        movement.HandleLook(inputHandler.LookInput,paused);
+        movement.HandleMovement(inputHandler.MoveInput);
+        movement.HandleJump(inputHandler.JumpPressed);
+        movement.HandleCrouch(inputHandler.CrouchPressed);
+
         HandleInteract();
     }
 
-    // ************** Camera and Player Movement **************
+    
 
-    void RotateAndMovePlayer(Vector2 moveValue, Vector2 lookValue)
-    {
-        if (!paused && !cutScene)
-        {
-            // Check if grounded
-            isGrounded = controller.isGrounded;
-            if (isGrounded && playerVelocity.y < 0)
-            {
-                playerVelocity.y = 0f;
-            }
-
-            //camera
-            transform.Rotate(lookValue.x * mouseSensitivity * Vector3.up);
-            xRotation -= lookValue.y * mouseSensitivity;
-            xRotation = Mathf.Clamp(xRotation, -60f, 60f);
-            cameraTransform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-
-            // Movement
-            Vector3 moveDirection = (transform.forward * moveValue.y + transform.right * moveValue.x).normalized;
-            if (moveValue.y == 0 && moveValue.x == 0)
-            {
-                if (noises[0].isPlaying)
-                    noises[0].Stop();
-            }
-            else
-            {
-                if (!noises[0].isPlaying)
-                    noises[0].Play();
-            }
-            controller.Move(speed * Time.deltaTime * moveDirection);
-
-            // Jumping
-            if (jumpAction.IsPressed() && isGrounded && !isCrouching)
-            {
-                playerVelocity.y += Mathf.Sqrt(jumpPower * -2.0f * gravity);
-            }
-            playerVelocity.y += gravity * Time.deltaTime;
-            controller.Move(playerVelocity * Time.deltaTime); 
-        }   
-        else if (!paused)
-        {
-            //cutscene camera
-            yRotationForCutscene += lookValue.x * mouseSensitivity;
-            yRotationForCutscene = Mathf.Clamp(yRotationForCutscene, -90f, 90f);
-            xRotation -= lookValue.y * mouseSensitivity;
-            xRotation = Mathf.Clamp(xRotation, -60f, 60f);
-            cameraTransform.localRotation = Quaternion.Euler(xRotation, yRotationForCutscene, 0f);
-        }
-    }
+    
 
     // Crouching
     void OnCrouchPressed(InputAction.CallbackContext context)
     {
-        if (!cutScene)
+        
+        if (!cutScene && !isJumping && playerVelocity.y <= 0)
         {
             isTryingUncrouch = false;
             isCrouching = true;
@@ -204,18 +150,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    // Sprinting (no sprinting until later probably)
-    void OnSprintPressed(InputAction.CallbackContext context)
-    {
-        if (!isCrouching)
-        {
-            speed = baseSpeed * 1.5f;
-        }
-    }
-    void OnSprintReleased(InputAction.CallbackContext context)
-    {
-        speed = baseSpeed;
-    }
 
     // Pause the game
     public void TogglePause()
@@ -244,7 +178,7 @@ public class Player : MonoBehaviour
         {
             if (!isInteracting)
                 InteractPrompt.SetActive(true);
-            if (interactAction.IsPressed()  && !isInteracting)
+            if (inputHandler.InteractPressed  && !isInteracting)
             {
                 isInteracting = true;
                 string tag = hit.transform.tag;
