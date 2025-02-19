@@ -170,81 +170,106 @@ public class Player : MonoBehaviour
             Cursor.visible = false;
         }
     }
-    void HandleInteract()
+
+    private void HandleInteract()
+{
+    Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+    if (Physics.Raycast(ray, out RaycastHit hit, 2.0f, interactableLayer) && !cutScene)
     {
-        Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
-        RaycastHit hit = new RaycastHit();
-        if (Physics.Raycast(ray, out hit, 2.0f, interactableLayer) && !cutScene)
-        {
-            if (!isInteracting)
-                InteractPrompt.SetActive(true);
-            if (inputHandler.InteractPressed  && !isInteracting)
-            {
-                isInteracting = true;
-                string tag = hit.transform.tag;
-                print($"interact with {tag}");
+        InteractPrompt.SetActive(true);
 
-                if (string.CompareOrdinal(tag, "Drawer") == 0)
-                {
-                    skipDestroying = true;
-                    hit.transform.GetComponent<Drawer>().OpenDrawer();
-                }
-                else if (string.CompareOrdinal(tag, "Door") == 0)
-                {
-                    skipDestroying = true;
-                    hit.transform.GetComponent<Door>().OpenDoor();
-                    noises[1].Play();
-                }
-                else if (string.CompareOrdinal(tag, "LightSwitch") == 0)
-                {
-                    skipDestroying = true;
-                }
-                else if (string.CompareOrdinal(tag, "Phone") == 0) 
-                {
-                    skipDestroying = true;
-                    hit.transform.GetComponent<Phone>().AnswerPhone();
-                }
-                else if (string.CompareOrdinal(tag, "Lockpick") == 0) 
-                {
-                    OnPlayerInteraction?.Invoke(tag);
-                    sequenceManager.PlaySequence("LockpickPickup", transform.position);
-                }
-                else if (string.CompareOrdinal(tag, "LevelWinObject") == 0) 
-                {
-                    LevelPortal.layer = LayerMask.NameToLayer("Interactable");
-                    GameObject.FindGameObjectWithTag("EndLight").GetComponent<Light>().enabled = true;
-                    OnPlayerInteraction?.Invoke(tag);
-                    if (hit.transform.name == "briefcase")
-                    {
-                        GameObject.FindGameObjectWithTag("Phone").GetComponent<Phone>().Ring();
-                    }
-                    isLeaving = true;
-                }
-                else if (string.CompareOrdinal(tag, "Portal") == 0) 
-                {
-                    skipDestroying = true;
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
-                }
-                else
-                {
-                    noises[3].Play();
-                    OnPlayerInteraction?.Invoke(tag);
-                }
-                if (!skipDestroying)
-                {
-                    DestroyImmediate(hit.transform.gameObject);
-                }
-
-                skipDestroying = false;
-                if (string.CompareOrdinal(tag, "Door") != 0)
-                    StartCoroutine(WaitToStopInteracting());
-            }
-        }
-        else
+        if (inputHandler.InteractPressed && !isInteracting)
         {
-            InteractPrompt.SetActive(false);
+            isInteracting = true;
+
+            IInteractable interactable = hit.transform.GetComponent<IInteractable>();
+            interactable?.Interact();
+
+            StartCoroutine(WaitToStopInteracting());
         }
     }
+    else
+    {
+        InteractPrompt.SetActive(false);
+    }
+}
+
+
+    // void HandleInteract()
+    // {
+    //     Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2));
+    //     RaycastHit hit = new RaycastHit();
+    //     if (Physics.Raycast(ray, out hit, 2.0f, interactableLayer) && !cutScene)
+    //     {
+    //         if (!isInteracting)
+    //             InteractPrompt.SetActive(true);
+    //         if (inputHandler.InteractPressed  && !isInteracting)
+    //         {
+    //             isInteracting = true;
+    //             string tag = hit.transform.tag;
+    //             print($"interact with {tag}");
+
+    //             if (string.CompareOrdinal(tag, "Drawer") == 0)
+    //             {
+    //                 skipDestroying = true;
+    //                 hit.transform.GetComponent<Drawer>().OpenDrawer();
+    //             }
+    //             else if (string.CompareOrdinal(tag, "Door") == 0)
+    //             {
+    //                 skipDestroying = true;
+    //                 hit.transform.GetComponent<Door>().OpenDoor();
+    //                 noises[1].Play();
+    //             }
+    //             else if (string.CompareOrdinal(tag, "LightSwitch") == 0)
+    //             {
+    //                 skipDestroying = true;
+    //             }
+    //             else if (string.CompareOrdinal(tag, "Phone") == 0) 
+    //             {
+    //                 skipDestroying = true;
+    //                 hit.transform.GetComponent<Phone>().AnswerPhone();
+    //             }
+    //             else if (string.CompareOrdinal(tag, "Lockpick") == 0) 
+    //             {
+    //                 OnPlayerInteraction?.Invoke(tag);
+    //                 sequenceManager.PlaySequence("LockpickPickup", transform.position);
+    //             }
+    //             else if (string.CompareOrdinal(tag, "LevelWinObject") == 0) 
+    //             {
+    //                 LevelPortal.layer = LayerMask.NameToLayer("Interactable");
+    //                 GameObject.FindGameObjectWithTag("EndLight").GetComponent<Light>().enabled = true;
+    //                 OnPlayerInteraction?.Invoke(tag);
+    //                 if (hit.transform.name == "briefcase")
+    //                 {
+    //                     GameObject.FindGameObjectWithTag("Phone").GetComponent<Phone>().Ring();
+    //                 }
+    //                 isLeaving = true;
+    //             }
+    //             else if (string.CompareOrdinal(tag, "Portal") == 0) 
+    //             {
+    //                 skipDestroying = true;
+    //                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
+    //             }
+    //             else
+    //             {
+    //                 noises[3].Play();
+    //                 OnPlayerInteraction?.Invoke(tag);
+    //             }
+    //             if (!skipDestroying)
+    //             {
+    //                 DestroyImmediate(hit.transform.gameObject);
+    //             }
+
+    //             skipDestroying = false;
+    //             if (string.CompareOrdinal(tag, "Door") != 0)
+    //                 StartCoroutine(WaitToStopInteracting());
+    //         }
+    //     }
+    //     else
+    //     {
+    //         InteractPrompt.SetActive(false);
+    //     }
+    // }
 
     private IEnumerator WaitToStopInteracting()
     {
