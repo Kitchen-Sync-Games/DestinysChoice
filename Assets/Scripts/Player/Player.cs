@@ -14,13 +14,13 @@ public class Player : MonoBehaviour
     public static event Action<string> OnPlayerInteraction;
     
     [SerializeField] private Transform cameraTransform;
-    [SerializeField] private GameObject PauseMenu;
-    [SerializeField] private GameObject InteractPrompt;
-    [SerializeField] private GameObject LevelPortal;
-    [SerializeField] private GameObject SpookyGuy;
+    private GameObject PauseMenu;
+    private GameObject InteractPrompt;
+    private GameObject LevelPortal;
+    private GameObject SpookyGuy;
     [SerializeField] private LayerMask interactableLayer;
-    [SerializeField] private SequenceManager sequenceManager;
-    [SerializeField] private GameObject toolManage;
+    private SequenceManager sequenceManager;
+    private GameObject toolManage;
 
 
 
@@ -71,7 +71,7 @@ public class Player : MonoBehaviour
         interactAction = InputSystem.actions.FindAction("Interact");
         sprintAction = InputSystem.actions.FindAction("Sprint");
         pauseAction.performed += ctx => TogglePause();
-        if (hasLockpickAtStart)
+        if (toolManage != null && hasLockpickAtStart)
             toolManage.GetComponent<ToolUIManager>().m_is_lockpick_unlocked = true;
         crouchAction.performed += OnCrouchPressed;
         crouchAction.canceled += OnCrouchReleased;
@@ -88,15 +88,15 @@ public class Player : MonoBehaviour
     }
     IEnumerator StartingCutsceneAndVoiceLines() 
     {
-        cutScene = true;
+        cutScene = false;
         cameraTransform.SetLocalPositionAndRotation(new Vector3 (-1.5f, 0.25f, 0), Quaternion.Euler(-45f, 0f, 0f));
         yield return new WaitUntil(() => cutScene == false);
         cameraTransform.localPosition = new Vector3 (0f, 0.5f, 0f);
         yield return new WaitUntil(() => transform.position.z <= -15 || transform.position.z >= 20);
-        sequenceManager.PlaySequence("DoorsJoke", transform.position);
+        sequenceManager?.PlaySequence("DoorsJoke", transform.position);
         yield return new WaitUntil(() => isLeaving == true);
         yield return new WaitUntil(() => transform.position.x <= 1.5);
-        sequenceManager.StopAllCoroutines();
+        sequenceManager?.StopAllCoroutines();
         
         StartCoroutine(SpookyLights());
     }
@@ -110,7 +110,7 @@ public class Player : MonoBehaviour
         }
         noises[2].Play();
         yield return new WaitForSeconds(3);
-        SpookyGuy.SetActive(true);
+        SpookyGuy?.SetActive(true);
         foreach (GameObject light in lights)
         {
             light.GetComponent<Light>().color = new Color(1f, 0, 0);
@@ -135,7 +135,7 @@ public class Player : MonoBehaviour
             light.GetComponent<Light>().enabled = true;
         }
         noises[2].Play();
-        SpookyGuy.SetActive(false);
+        SpookyGuy?.SetActive(false);
     }
 
     void Update()
@@ -265,14 +265,14 @@ public class Player : MonoBehaviour
         paused = !paused;
         if (paused)
         {
-            PauseMenu.SetActive(true);
+            PauseMenu?.SetActive(true);
             Time.timeScale = 0f;
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
         else
         {
-            PauseMenu.SetActive(false);
+            PauseMenu?.SetActive(false);
             Time.timeScale = 1f;
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
@@ -285,7 +285,7 @@ public class Player : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 2.0f, interactableLayer) && !cutScene)
         {
             if (!isInteracting)
-                InteractPrompt.SetActive(true);
+                InteractPrompt?.SetActive(true);
             if (interactAction.IsPressed()  && !isInteracting)
             {
                 isInteracting = true;
@@ -315,11 +315,12 @@ public class Player : MonoBehaviour
                 else if (string.CompareOrdinal(tag, "Lockpick") == 0) 
                 {
                     OnPlayerInteraction?.Invoke(tag);
-                    sequenceManager.PlaySequence("LockpickPickup", transform.position);
+                    sequenceManager?.PlaySequence("LockpickPickup", transform.position);
                 }
                 else if (string.CompareOrdinal(tag, "LevelWinObject") == 0) 
                 {
-                    LevelPortal.layer = LayerMask.NameToLayer("Interactable");
+                    if(LevelPortal != null)
+                        LevelPortal.layer = LayerMask.NameToLayer("Interactable");
                     GameObject.FindGameObjectWithTag("EndLight").GetComponent<Light>().enabled = true;
                     OnPlayerInteraction?.Invoke(tag);
                     if (hit.transform.name == "briefcase")
@@ -350,7 +351,8 @@ public class Player : MonoBehaviour
         }
         else
         {
-            InteractPrompt.SetActive(false);
+            if(InteractPrompt != null)
+                InteractPrompt?.SetActive(false);
         }
     }
 
